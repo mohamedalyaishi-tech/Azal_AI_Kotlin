@@ -20,11 +20,17 @@ jobs:
       - name: Grant execute permission for gradlew
         run: chmod +x gradlew
 
-      - name: Build Release APK
+      - name: Setup Android SDK
+        run: |
+          mkdir -p $ANDROID_HOME/licenses
+          echo -e "\n8933bad161af4178b1185d1a37fbf41ea5269c55" > $ANDROID_HOME/licenses/android-sdk-license
+          echo -e "\n84831def934dac1a90e3e0b7c6e8a62b95708cd6" > $ANDROID_HOME/licenses/android-sdk-preview-license
+
+      - name: Build Debug APK
         run: ./gradlew assembleDebug
 
       - name: Upload APK
         uses: actions/upload-artifact@v4
         with:
-          name: azal-ai-apk
-          path: app/build/outputs/apk/release/*.apk
+          name: azal-ai-debug-apk
+          path: app/build/outputs/apk/debug/*.apk
